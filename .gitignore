@@ -1,0 +1,7 @@
+*.db
+dbconfig.yml
+start.sh
+sql-migrate
+dockerstats
+node_modules
+*-packr.go
