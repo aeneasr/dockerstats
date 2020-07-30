@@ -1,7 +1,7 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import Router from './Router'
 import * as serviceWorker from './serviceWorker'
+import { hydrate, render } from "react-dom";
 
 // if (
 //     (
@@ -18,7 +18,16 @@ import * as serviceWorker from './serviceWorker'
 //     window.location.href = 'https://www.dockerstats.com/'
 // }
 
-ReactDOM.render(<Router/>, document.getElementById('root'))
+const rootElement = document.getElementById("root");
+if (!rootElement) {
+    throw new Error('Could not find element #root.')
+}
+
+if (rootElement.hasChildNodes()) {
+    hydrate(<Router />, rootElement);
+} else {
+    render(<Router />, rootElement);
+}
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
