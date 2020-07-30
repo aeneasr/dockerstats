@@ -25,13 +25,9 @@ const styles = (theme: Theme) => ({
   },
   layout: {
     width: 'auto',
-    marginLeft: theme.spacing(3),
-    marginRight: theme.spacing(3),
-    [theme.breakpoints.up(1280 + theme.spacing(3) * 2)]: {
-      width: 1280,
       marginLeft: 'auto',
+      maxWidth: 1280,
       marginRight: 'auto',
-    },
   },
   footer: {
     marginTop: theme.spacing(8),
@@ -64,7 +60,7 @@ class AppRouter extends Component<PropTypes> {
         <CssBaseline/>
         <Container>
           <Grid container>
-            <Grid item>
+            <Grid item xs={12}>
               <Typography
                 component="h1"
                 noWrap
@@ -77,7 +73,7 @@ class AppRouter extends Component<PropTypes> {
               </Typography>
             </Grid>
 
-            <Grid item>
+            <Grid item xs={12}>
               <Router>
                 <main className={classes.layout}>
                   <Switch>
@@ -88,7 +84,7 @@ class AppRouter extends Component<PropTypes> {
               </Router>
             </Grid>
 
-            <Grid item className={classes.disclaimer}>
+            <Grid item xs={12} className={classes.disclaimer}>
               <Typography variant="body2" className={classes.explanation}>
                 Some image pull counters hit the int32 upper bound which is a Docker Hub bug that has been <a
                 href="https://github.com/docker/hub-feedback/issues/2003">reported on GitHub</a>.

@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/jmoiron/sqlx"
-	"github.com/uber-go/atomic"
+	"go.uber.org/atomic"
 
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"

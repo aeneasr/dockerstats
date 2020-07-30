@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import {
   XAxis,
   YAxis,
@@ -8,7 +8,7 @@ import {
   AreaChart,
   Area,
 } from 'recharts'
-import { base } from '../helper'
+import { stats} from '../helper'
 import {
   StyledComponentProps,
   Theme,
@@ -102,21 +102,17 @@ class Chart extends Component<PropTypes, StateTypes> {
       return
     }
 
-    const url = new URL('/snapshots/repositories', base())
-    url.searchParams.set('repo', repo)
-    url.searchParams.set('org', org)
-    return fetch(url.toString())
-      .then(res => res.json())
+    return stats({org,repo})
       .then(body =>
         this.setState(() => ({
-          fetched: true,
-          data: body.map(({ timestamp, ...rest }: any) => ({
-            ...rest,
-            timestamp: new Date(timestamp).getTime(),
-          })),
-        }))
-      )
-      .catch(err => console.error(err))
+            fetched: true,
+            data: body.map(({ timestamp, ...rest }: any) => ({
+                ...rest,
+                timestamp: new Date(timestamp).getTime(),
+              }))
+          })
+        ))
+      .catch(console.error)
   }
 
   render() {
@@ -164,8 +160,8 @@ class Chart extends Component<PropTypes, StateTypes> {
                   domain={['dataMin', 'dataMax']}
                   tickFormatter={formatTimestamp}
                   type="number"
-                  tickCount={10}
-                  interval={'preserveStartEnd' as 'preserveStartEnd'}
+                  tickCount={12}
+                  // interval={'preserveStartEnd' as 'preserveStartEnd'}
                 />
                 <YAxis
                   padding={{ top: 0, bottom: 0 }}
@@ -179,9 +175,9 @@ class Chart extends Component<PropTypes, StateTypes> {
                 />
                 <CartesianGrid
                   stroke="rgba(1,91,141,0.15)"
-                  strokeDasharray="0 0"
+                  strokeDasharray="3 3"
                   horizontal={true}
-                  vertical={false}
+                  vertical={true}
                 />
                 <Tooltip content={CustomTooltip} />
                 <Area

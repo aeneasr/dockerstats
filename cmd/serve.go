@@ -96,13 +96,19 @@ var serveCmd = &cobra.Command{
 		}
 		router.NotFoundHandler = sh
 		c := cors.New(cors.Options{
+			AllowedHeaders:[]string{"*"},
 			AllowedOrigins: []string{
+				"http://dockerstats.com",
+				"http://www.dockerstats.com",
 				"https://dockerstats.com",
 				"https://www.dockerstats.com",
+				"https://statsd.ory.sh",
 				"https://dockerstats.io",
 				"https://www.dockerstats.io",
 				"http://localhost:3000",
+				"http://127.0.0.1:3000",
 				"http://localhost:3001",
+				"http://127.0.0.1:3001",
 			},
 		})
 		addr := fmt.Sprintf("%s:%d", viper.GetString("host"), viper.GetInt("port"))

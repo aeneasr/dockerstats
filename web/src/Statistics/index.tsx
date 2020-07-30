@@ -2,7 +2,7 @@ import React, { ChangeEvent, Component, KeyboardEvent } from 'react'
 import { Grid } from '@material-ui/core'
 import { RouteComponentProps } from 'react-router'
 import Chart from '../Chart'
-import { base } from '../helper'
+import { stats } from '../helper'
 import Input from './Input'
 
 type PathParams = {
@@ -52,14 +52,7 @@ class Statistics extends Component<PropTypes, StateTypes> {
   }
 
   fetch(org: string, repo: string) {
-    const url = new URL('/snapshots/repositories', base())
-
-    url.searchParams.set('repo', repo)
-    url.searchParams.set('org', org)
-
-    return fetch(url.toString())
-      .then(res => res.json())
-      .catch(err => console.error(err))
+    return stats({org,repo}).catch(console.error)
   }
 
   go = () => {

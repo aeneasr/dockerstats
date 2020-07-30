@@ -1,11 +1,8 @@
 import React from 'react'
 import {createStyles, makeStyles} from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
 import MuiInput from '@material-ui/core/Input'
-import Divider from '@material-ui/core/Divider'
 import IconButton from '@material-ui/core/IconButton'
 import SearchIcon from '@material-ui/icons/Search'
-import {Grid} from "@material-ui/core";
 
 const useStyles = makeStyles(
   createStyles({
