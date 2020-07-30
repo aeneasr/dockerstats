@@ -36,6 +36,12 @@
       "last 1 safari version"
     ]
   },
+  "reactSnap": {
+    "puppeteerArgs": [
+      "--no-sandbox",
+      "--disable-setuid-sandbox"
+    ]
+  },
   "devDependencies": {
     "@types/jest": "24.0.12",
     "@types/material-ui": "^0.21.7",
