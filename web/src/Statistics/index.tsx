@@ -52,7 +52,7 @@ class Statistics extends Component<PropTypes, StateTypes> {
   }
 
   fetch(org: string, repo: string) {
-    return stats({org,repo}).catch(console.error)
+    return stats({ org, repo }).catch(console.error)
   }
 
   go = () => {

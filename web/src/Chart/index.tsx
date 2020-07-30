@@ -8,7 +8,7 @@ import {
   AreaChart,
   Area,
 } from 'recharts'
-import { stats} from '../helper'
+import { stats } from '../helper'
 import {
   StyledComponentProps,
   Theme,
@@ -54,7 +54,7 @@ const styles = (theme: Theme) => ({
   container: {
     padding: '56px 24px 32px 24px',
     paddingRight: 24,
-    boxShadow: '0px 0px 64px rgba(34, 186, 251, 0.1)'
+    boxShadow: '0px 0px 64px rgba(34, 186, 251, 0.1)',
   },
   warning: {
     marginTop: theme.spacing(2),
@@ -102,16 +102,16 @@ class Chart extends Component<PropTypes, StateTypes> {
       return
     }
 
-    return stats({org,repo})
+    return stats({ org, repo })
       .then(body =>
         this.setState(() => ({
-            fetched: true,
-            data: body.map(({ timestamp, ...rest }: any) => ({
-                ...rest,
-                timestamp: new Date(timestamp).getTime(),
-              }))
-          })
-        ))
+          fetched: true,
+          data: body.map(({ timestamp, ...rest }: any) => ({
+            ...rest,
+            timestamp: new Date(timestamp).getTime(),
+          })),
+        }))
+      )
       .catch(console.error)
   }
 
@@ -129,9 +129,7 @@ class Chart extends Component<PropTypes, StateTypes> {
             This repository either does not exist or has not been fetched yet.
             To check if the repository exists, click{' '}
             <a
-              href={`https://hub.docker.com/v2/repositories/${this.props.org}/${
-                this.props.repo
-              }/`}
+              href={`https://hub.docker.com/v2/repositories/${this.props.org}/${this.props.repo}/`}
             >
               here
             </a>
@@ -152,8 +150,8 @@ class Chart extends Component<PropTypes, StateTypes> {
           </Paper>
         )}
         <Paper className={classes.container}>
-          <div style={{ width: '100%', height: '30vh' }}>
-            <ResponsiveContainer width={'99%'}>
+          <div>
+            <ResponsiveContainer width={'99%'} aspect={32 / 9}>
               <AreaChart data={this.state.data}>
                 <XAxis
                   dataKey="timestamp"
@@ -161,7 +159,6 @@ class Chart extends Component<PropTypes, StateTypes> {
                   tickFormatter={formatTimestamp}
                   type="number"
                   tickCount={12}
-                  // interval={'preserveStartEnd' as 'preserveStartEnd'}
                 />
                 <YAxis
                   padding={{ top: 0, bottom: 0 }}
