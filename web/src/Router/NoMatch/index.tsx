@@ -24,11 +24,7 @@ const repos = [
 
 class NoMatch extends Component<PropTypes> {
   componentDidMount(): void {
-    console.log(
-      'pushing',
-      `/hubs/docker/${repos[Math.floor(Math.random() * repos.length)]}`
-    )
-    this.props.history.push(
+    this.props.history.replace(
       `/hubs/docker/${repos[Math.floor(Math.random() * repos.length)]}`
     )
   }
