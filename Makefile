@@ -37,5 +37,5 @@ build:
 
 .PHONY: deploy
 deploy:
-		gcloud builds submit --tag gcr.io/ory-web/dockerstats
-		gcloud run deploy --image gcr.io/ory-web/dockerstats --platform managed --region europe-west1 --allow-unauthenticated dockerstats
+		gcloud builds submit --tag gcr.io/ory-web/dockerstats --timeout 60m
+		gcloud run deploy --image gcr.io/ory-web/dockerstats --platform managed --region us-east1 --allow-unauthenticated dockerstats

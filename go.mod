@@ -5,6 +5,7 @@ go 1.14
 replace github.com/uber-go/atomic => github.com/uber-go/atomic v1.4.0
 
 require (
+	cloud.google.com/go v0.46.3
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/gobuffalo/packr v1.22.0
 	github.com/gorilla/mux v1.7.4

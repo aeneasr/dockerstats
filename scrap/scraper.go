@@ -32,6 +32,7 @@ type Scraper struct {
 	discoverEvery     time.Duration
 	delay             time.Duration
 	scrapRefreshQueue time.Duration
+	refreshEvery      time.Duration
 	updateEvery       string
 	scrapEvery        func(time.Time) (time.Time, string)
 	queue             chan string
@@ -65,6 +66,7 @@ func NewScraper(
 		discoverEvery:     discoverEvery,
 		delay:             delay,
 		scrapRefreshQueue: scrapRefreshQueue,
+		refreshEvery:      -time.Hour * 24 * time.Duration(daysRefresh),
 		scrapEvery: func(i time.Time) (time.Time, string) {
 			return time.Date(i.Year(), i.Month(), i.Day(), 0, 0, 0, 0, i.Location()), fmt.Sprintf("%d days", daysRefresh)
 			// return time.Date(i.Year(), i.Month(), i.Day(), i.Hour(), 0, 0, 0, i.Location()), "1 hour"
