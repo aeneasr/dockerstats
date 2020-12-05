@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"runtime"
 	"strings"
 	"time"
 
@@ -53,6 +54,13 @@ var serveCmd = &cobra.Command{
 
 		log.Infoln("Connecting to database")
 		db := connect(log)
+
+		log.
+			WithField("cpu", runtime.NumCPU()).
+			WithField("cgo_call", runtime.NumCgoCall()).
+			WithField("goroutines", runtime.NumGoroutine()).
+			WithField("goos", runtime.GOOS).
+			Infof("Collected system data")
 
 		ri := scrap.NewScraper(
 			flagx.MustGetInt(cmd, "task-count"),

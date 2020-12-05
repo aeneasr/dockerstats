@@ -78,7 +78,7 @@ class AppRouter extends Component<PropTypes> {
                   window.location.href = '/'
                 }}
               >
-                Dockerstats
+                dockerstats.com
               </Typography>
             </Grid>
 

@@ -1,59 +1,55 @@
 import React, { Component } from 'react'
-import {
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  AreaChart,
-  Area,
-} from 'recharts'
 import { stats } from '../helper'
 import {
+  Paper,
   StyledComponentProps,
   Theme,
   Typography,
   withStyles,
-  Paper,
 } from '@material-ui/core'
 import numeral from 'numeral'
+import {
+  createContainer,
+  VictoryArea,
+  VictoryAxis,
+  VictoryBrushContainer,
+  VictoryChart,
+  VictoryGroup,
+  VictoryLabel,
+  VictoryLegend,
+  VictoryLine,
+  VictoryTooltip,
+  VictoryVoronoiContainer,
+} from 'victory'
+import { DomainTuple } from 'victory-core'
 
 interface PropTypes extends StyledComponentProps {
   org: string
   repo: string
 }
 
-interface StateTypes {
-  data: any[]
-  fetched: boolean
+interface Item {
+  timestamp: number
 }
 
-const CustomTooltip = ({ active, payload, label }: any) => {
-  if (active) {
-    return (
-      <Paper style={{ padding: '6px 8px' }}>
-        <Typography variant={'body2'}>
-          {formatTimestamp(label)}: {payload[0].value}
-        </Typography>
-      </Paper>
-    )
-  }
-
-  return null
+interface StateTypes {
+  data: Item[]
+  fetched: boolean
+  zoomDomain: { x?: DomainTuple; y?: DomainTuple }
 }
 
 const formatNumber = (n: number) => numeral(n).format('0.0a')
 
 const formatTimestamp = (ts: number) => {
   const date = new Date(ts)
-  return `${date.getUTCFullYear()}-${date.getUTCMonth() +
-    1}-${date.getUTCDate()}`
+  return `${date.getUTCFullYear()}-${
+    date.getUTCMonth() + 1
+  }-${date.getUTCDate()}`
 }
 
 const styles = (theme: Theme) => ({
   container: {
-    padding: '56px 24px 32px 24px',
-    paddingRight: 24,
+    padding: '24px 24px 32px 24px',
     boxShadow: '0px 0px 64px rgba(34, 186, 251, 0.1)',
   },
   warning: {
@@ -65,10 +61,13 @@ const styles = (theme: Theme) => ({
   },
 })
 
+const AdvancedContainer: any = createContainer('zoom', 'voronoi')
+
 class Chart extends Component<PropTypes, StateTypes> {
   state = {
     data: [],
     fetched: false,
+    zoomDomain: { x: [new Date(2019, 1, 1), new Date()] } as any,
   }
 
   componentDidMount(): void {
@@ -103,16 +102,21 @@ class Chart extends Component<PropTypes, StateTypes> {
     }
 
     return stats({ org, repo })
-      .then(body =>
+      .then((body) =>
         this.setState(() => ({
           fetched: true,
           data: body.map(({ timestamp, ...rest }: any) => ({
             ...rest,
+            // label: formatNumber(rest.pull_count),
             timestamp: new Date(timestamp).getTime(),
           })),
         }))
       )
       .catch(console.error)
+  }
+
+  handleZoom(domain: any) {
+    this.setState({ zoomDomain: domain })
   }
 
   render() {
@@ -139,6 +143,9 @@ class Chart extends Component<PropTypes, StateTypes> {
       )
     }
 
+    const lastItem = this.state.data[this.state.data.length - 1] as any
+    const maxY = lastItem.pull_count + lastItem.pull_count / 20
+
     return (
       <>
         {this.state.data.length < 25 && (
@@ -150,43 +157,66 @@ class Chart extends Component<PropTypes, StateTypes> {
           </Paper>
         )}
         <Paper className={classes.container}>
-          <div>
-            <ResponsiveContainer width={'99%'} aspect={32 / 9}>
-              <AreaChart data={this.state.data}>
-                <XAxis
-                  dataKey="timestamp"
-                  domain={['dataMin', 'dataMax']}
-                  tickFormatter={formatTimestamp}
-                  type="number"
-                  tickCount={12}
+          <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+            <VictoryGroup
+              scale={{
+                x: 'time',
+              }}
+              padding={{ left: 0, top: 50, right: 70, bottom: 40 }}
+              height={540}
+              width={1264}
+              maxDomain={{ y: maxY }}
+              containerComponent={
+                <VictoryVoronoiContainer
+                  // zoomDimension="x"
+                  responsive
+                  // zoomDomain={this.state.zoomDomain}
+                  // onZoomDomainChange={this.handleZoom.bind(this)}
                 />
-                <YAxis
-                  padding={{ top: 0, bottom: 0 }}
-                  type="number"
-                  orientation={'right'}
-                  domain={[0, 'auto']}
-                  tickFormatter={formatNumber}
-                  tickLine={false}
-                  axisLine={false}
-                  tickCount={5}
-                />
-                <CartesianGrid
-                  stroke="rgba(1,91,141,0.15)"
-                  strokeDasharray="3 3"
-                  horizontal={true}
-                  vertical={true}
-                />
-                <Tooltip content={CustomTooltip} />
-                <Area
-                  type="monotone"
-                  dataKey="pull_count"
-                  name="Total Image Pulls"
-                  stroke="#015B8D"
-                  fill="rgba(11, 243, 243, 0.13)"
-                  dot={() => null}
-                />
-              </AreaChart>
-            </ResponsiveContainer>
+              }
+            >
+              <VictoryArea
+                style={{
+                  data: {
+                    fill: 'rgba(11, 243, 243, 0.13)',
+                    stroke: '#015B8D',
+                  },
+                }}
+                labels={({ datum }) =>
+                  `${formatTimestamp(datum.timestamp)}: ${formatNumber(
+                    datum.pull_count
+                  )}`
+                }
+                labelComponent={
+                  <VictoryTooltip
+                    flyoutStyle={{ strokeWidth: 0, fillOpacity: 0.95 }}
+                    style={{ fontSize: 16 }}
+                    constrainToVisibleArea
+                  />
+                }
+                data={this.state.data}
+                maxDomain={{ y: maxY }}
+                minDomain={{ y: 0 }}
+                padding={{ top: 5 }}
+                x="timestamp"
+                y="pull_count"
+              />
+              <VictoryAxis
+                dependentAxis
+                maxDomain={{ y: maxY }}
+                tickFormat={(pull_count) => formatNumber(pull_count)}
+                style={{
+                  tickLabels: { fontSize: 16 },
+                  axis: { stroke: '#756f6a' },
+                  axisLabel: { fontSize: 40, padding: '120 0 0 0' },
+                }}
+                orientation="right"
+              />
+              <VictoryAxis
+                style={{ tickLabels: { fontSize: 16 } }}
+                orientation="bottom"
+              />
+            </VictoryGroup>
           </div>
         </Paper>
       </>

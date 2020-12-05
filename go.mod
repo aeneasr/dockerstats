@@ -27,7 +27,6 @@ require (
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.7.0
-	github.com/uber-go/atomic v1.6.0 // indirect
 	github.com/urfave/negroni v1.0.0
 	go.uber.org/atomic v1.6.0
 	golang.org/x/sys v0.0.0-20200728102440-3e129f6d46b1 // indirect

@@ -15,5 +15,5 @@ export const stats = ({ org, repo }: { org: string; repo: string }) => {
   url.searchParams.set('__host', 'dockerstats.com')
   url.searchParams.set('__proto', 'https')
 
-  return fetch(url.toString()).then(res => res.json())
+  return fetch(url.toString()).then((res) => res.json())
 }

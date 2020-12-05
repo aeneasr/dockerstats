@@ -3,8 +3,9 @@ import MuiInput from '@material-ui/core/Input'
 import IconButton from '@material-ui/core/IconButton'
 import SearchIcon from '@material-ui/icons/Search'
 import { StyledComponentProps, makeStyles } from '@material-ui/core'
+import InputLabel from '@material-ui/core/InputLabel'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   input: {
     color: '#015B8D',
     fontWeight: 300,
@@ -46,6 +47,7 @@ const useStyles = makeStyles(theme => ({
 interface PropTypes extends StyledComponentProps {
   value: string
   error: boolean
+  label: string
 
   onChange: React.ChangeEventHandler<HTMLInputElement>
   onKeyPress: React.KeyboardEventHandler<HTMLInputElement>
@@ -53,11 +55,19 @@ interface PropTypes extends StyledComponentProps {
   onDone(): void
 }
 
-const Input = ({ onChange, value, onKeyPress, error, onDone }: PropTypes) => {
+const Input = ({
+  onChange,
+  value,
+  onKeyPress,
+  error,
+  onDone,
+  label,
+}: PropTypes) => {
   const classes = useStyles()
   return (
     <div className={classes.container}>
       <div className={classes.box}>
+        <InputLabel>{label}</InputLabel>
         <MuiInput
           placeholder="organization/repository"
           onKeyPress={onKeyPress}

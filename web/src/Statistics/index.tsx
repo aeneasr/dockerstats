@@ -1,5 +1,5 @@
 import React, { ChangeEvent, Component, KeyboardEvent } from 'react'
-import { Grid } from '@material-ui/core'
+import { Grid, Typography } from '@material-ui/core'
 import { RouteComponentProps } from 'react-router'
 import Chart from '../Chart'
 import { stats } from '../helper'
@@ -92,6 +92,7 @@ class Statistics extends Component<PropTypes, StateTypes> {
               onKeyPress={this.onKeyPress}
               error={error}
               onDone={this.go}
+              label="Show me docker image pulls for"
             />
           </Grid>
         </Grid>
