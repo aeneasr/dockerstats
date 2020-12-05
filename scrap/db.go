@@ -131,7 +131,7 @@ func (i *Scraper) dbDiscoveryList(ctx context.Context) ([]string, error) {
 
 func (i *Scraper) dbDiscoveryFetchNext(ctx context.Context) ([]string, error) {
 	var slugs []string
-	if err := i.db.SelectContext(ctx, &slugs, "SELECT slug FROM repositories WHERE last_scrapped_at < %1  AND error_code=0 ORDER BY last_scrapped_at, id ASC LIMIT 500", time.Now().Add(-i.refreshEvery).UTC()); err != nil {
+	if err := i.db.SelectContext(ctx, &slugs, "SELECT slug FROM repositories WHERE last_scrapped_at < $1 AND error_code=0 ORDER BY last_scrapped_at, id ASC LIMIT 500", time.Now().Add(-i.refreshEvery).UTC()); err != nil {
 		return nil, errors.WithStack(err)
 	}
 
