@@ -41,9 +41,15 @@ func connect(l logrus.FieldLogger) *sqlx.DB {
 		l.WithError(err).Fatal("Unable to connect to database.")
 	}
 
+	db.SetConnMaxIdleTime(time.Minute)
+	db.SetMaxIdleConns(2)
+	db.SetMaxOpenConns(20)
+	db.SetConnMaxLifetime(0)
+
 	if err := db.Ping(); err != nil {
 		l.WithError(err).Fatal("Unable to connect to database.")
 	}
+
 	return db
 }
 
