@@ -1,0 +1,10 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    id: Build
+    args: [ 'build', '-t', 'gcr.io/ory-web/github.com/aeneasr/dockerstats:$COMMIT_SHA', '.' ]
+  - name: 'gcr.io/cloud-builders/docker'
+    id: Push
+    args: ['push', 'gcr.io/ory-web/github.com/aeneasr/dockerstats:$COMMIT_SHA']
+images: ['gcr.io/ory-web/github.com/aeneasr/dockerstats']
+options:
+  substitutionOption: ALLOW_LOOSE
