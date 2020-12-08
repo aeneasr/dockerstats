@@ -76,10 +76,6 @@ var serveCmd = &cobra.Command{
 		router := mux.NewRouter()
 		api.NewHandler(ri, writer).Handle(router)
 
-		log.Infoln("Strating scrapers")
-		go ri.Discover()
-		go ri.Scrap()
-
 		mw := negroni.New()
 		mw.Use(negronilogrus.NewMiddleware())
 		mw.UseHandler(router)
