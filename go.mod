@@ -1,6 +1,6 @@
 module github.com/aeneasr/dockerstats
 
-go 1.14
+go 1.15
 
 replace github.com/uber-go/atomic => github.com/uber-go/atomic v1.4.0
 

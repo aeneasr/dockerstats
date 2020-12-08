@@ -21,7 +21,7 @@ COPY web .
 
 RUN npm run build
 
-FROM golang:1.14-alpine AS golang-builder
+FROM golang:1.15-alpine AS golang-builder
 
 RUN apk -U --no-cache add build-base git
 
@@ -39,7 +39,7 @@ COPY --from=node-builder /app/build web/build
 RUN packr
 RUN CGO_ENABLED=0 go build -a -o /usr/bin/dockerstats
 
-FROM alpine:3.11
+FROM alpine:3.12
 
 COPY --from=golang-builder /usr/bin/dockerstats /usr/bin/dockerstats
 
