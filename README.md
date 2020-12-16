@@ -1,7 +1,7 @@
-# www.dockerstats.com
+# [dockerstats.com](https://dockerstats.com)
 
 This hobby and research project scraps the Docker Hub API and keeps track of Docker Image Pulls over time. One such example is
-[library/nginx](https://www.dockerstats.com/hubs/docker/library/nginx).
+[library/nginx](https://dockerstats.com/hubs/docker/library/nginx).
 
 ![Dockerstats website screenshot](.github/banner.png)
 
