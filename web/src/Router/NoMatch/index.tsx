@@ -4,22 +4,15 @@ import { RouteComponentProps } from 'react-router'
 interface PropTypes extends RouteComponentProps {}
 
 const repos = [
-  'library/couchbase',
-  'library/mysql',
-  'library/postgres',
-  'library/redis',
-  'library/busybox',
-  'library/ubuntu',
-  'library/node',
   'library/golang',
-  'library/alpine',
   'library/registry',
   'library/hello-world',
-  'library/mongo',
-  'library/nginx',
   'library/consul',
   'library/debian',
-  'library/httpd',
+  'oryd/hydra',
+  'oryd/kratos',
+  'oryd/keto',
+  'oryd/oathkeeper',
 ]
 
 class NoMatch extends Component<PropTypes> {

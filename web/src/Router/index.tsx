@@ -90,6 +90,7 @@ class AppRouter extends Component<PropTypes> {
                       path="/hubs/docker/:org/:repo"
                       component={Statistics}
                     />
+                    <Route path="/hubs/docker/:org" component={Statistics} />
                     <Route component={NoMatch} />
                   </Switch>
                 </main>

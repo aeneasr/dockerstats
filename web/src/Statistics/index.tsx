@@ -40,7 +40,7 @@ class Statistics extends Component<PropTypes, StateTypes> {
   componentDidMount(): void {
     let { org = '' } = this.props.match.params
     const { repo = '' } = this.props.match.params
-    if (!org || !repo) {
+    if (!org) {
       return
     }
 
@@ -48,7 +48,11 @@ class Statistics extends Component<PropTypes, StateTypes> {
       org = 'library'
     }
 
-    this.setState(() => ({ input: `${org}/${repo}`, org, repo }))
+    if (!repo) {
+      this.setState(() => ({ input: `${org}`, org }))
+    } else {
+      this.setState(() => ({ input: `${org}/${repo}`, org, repo }))
+    }
   }
 
   fetch(org: string, repo: string) {
@@ -62,6 +66,10 @@ class Statistics extends Component<PropTypes, StateTypes> {
       const org = parts[0]
       const repo = parts[1]
       this.props.history.push(`/hubs/docker/${org}/${repo}`)
+    } else if (parts.length === 1) {
+      this.setState({ error: false })
+      const org = parts[0]
+      this.props.history.push(`/hubs/docker/${org}`)
     } else {
       this.setState({ error: true })
     }
